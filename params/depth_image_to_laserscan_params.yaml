@@ -1,0 +1,10 @@
+
+depthimage_to_laserscan_node:
+    ros__parameters:
+        scan_time: 0.33  # Time between scans (seconds). Typically, 1.0/frame_rate. 
+        range_min: 0.01
+        range_max: 5.0
+        scan_height: 1 #Prevously was 4
+        #output_frame: camera_link
+      
+      

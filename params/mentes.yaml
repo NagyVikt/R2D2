@@ -1,0 +1,40 @@
+# realsense2_camera_node:
+#   ros__parameters:
+#     base_frame_id: base_link
+#     enable_accel: true
+#     enable_color: true
+#     enable_depth: true
+#     enable_gyro: true
+#     enable_infra1: false
+#     enable_infra2: false
+#     enable_sync: true
+#     publish_odom_tf: true
+#     publish_tf: true
+#     unite_imu_method: 2
+#     use_sim_time: false
+
+realsense2_camera_node:
+  ros__parameters:
+    serial_no: '213322072999'
+    base_frame_id: base_link
+    enable_accel: true
+    enable_color: true
+    enable_depth: true
+    enable_gyro: true
+    enable_infra1: false
+    enable_infra2: false
+    enable_sync: true
+    publish_odom_tf: true
+    publish_tf: true
+    unite_imu_method: 2
+    use_sim_time: false
+    pointcloud:
+      allow_no_texture_points: false
+      enable: true
+      filter_magnitude: 2
+      frames_queue_size: 16
+      ordered_pc: false
+      pointcloud_qos: DEFAULT
+      stream_filter: 2
+      stream_format_filter: 0
+      stream_index_filter: 0

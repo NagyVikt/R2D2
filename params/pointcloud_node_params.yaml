@@ -1,0 +1,11 @@
+pointcloud_to_laserscan:
+  ros__parameters:
+    min_height: 2.0
+    max_height: 4.0
+    angle_min: -0.785398163  # -45 degrees in radians
+    angle_max: 3.14159  # 180 degrees in radians
+    angle_increment: 0.0087  # 0.5 degrees in radians
+    scan_time: 0.033  # 30 Hz
+    range_min: 0.05  # Minimum range in meters
+    range_max: 10.0  # Maximum range in meters
+    use_inf: false # Report infinite range (no obstacle) as range_max + 1

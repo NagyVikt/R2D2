@@ -1,0 +1,161 @@
+<sdf version='1.7'>
+  <model name='atirobot'>
+    <joint name='world_joint' type='fixed'>
+      <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+      <parent>world</parent>
+      <child>base_link</child>
+    </joint>
+    <link name='base_link'>
+      <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0.000767 0 -0.329344 0 -0 0</pose>
+        <mass>205.727</mass>
+        <inertia>
+          <ixx>10.9025</ixx>
+          <ixy>4.42976e-16</ixy>
+          <ixz>0.0566917</ixz>
+          <iyy>15.7338</iyy>
+          <iyz>2.63068e-16</iyz>
+          <izz>11.7435</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ati_bot_description/meshes/robotbase.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__realsense_link_collision_1'>
+        <pose>-0.342 0.065 -0.095 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.012 0.132 0.02</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='base_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ati_bot_description/meshes/robotbase.stl</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__realsense_link_visual_1'>
+        <pose>-0.345 0 -0.102 1.57 -0 1.57</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://turtlebot3_description/meshes/sensors/r200.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='jointRight' type='revolute'>
+      <pose relative_to='base_link'>-0.2025 -0.287 -0.65199 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>linkRight</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <effort>1</effort>
+          <velocity>1</velocity>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='linkRight'>
+      <pose relative_to='jointRight'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0.027774 -0 0 -0 0</pose>
+        <mass>1.25389</mass>
+        <inertia>
+          <ixx>0.00259326</ixx>
+          <ixy>-1.42382e-21</ixy>
+          <ixz>-1.643e-19</ixz>
+          <iyy>0.00450988</iyy>
+          <iyz>3.37061e-20</iyz>
+          <izz>0.00259326</izz>
+        </inertia>
+      </inertial>
+      <collision name='linkRight_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ati_bot_description/meshes/linkRight_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='linkRight_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ati_bot_description/meshes/linkRight_link.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name='leftJoint' type='revolute'>
+      <pose relative_to='base_link'>-0.2025 0.287 -0.65199 0 -0 0</pose>
+      <parent>base_link</parent>
+      <child>linkLeft</child>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <effort>1</effort>
+          <velocity>1</velocity>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='linkLeft'>
+      <pose relative_to='leftJoint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0.027774 0 0 -0 0</pose>
+        <mass>1.25389</mass>
+        <inertia>
+          <ixx>0.00259326</ixx>
+          <ixy>-3.98187e-20</ixy>
+          <ixz>-3.8859e-21</ixz>
+          <iyy>0.00450988</iyy>
+          <iyz>1.48475e-21</iyz>
+          <izz>0.00259326</izz>
+        </inertia>
+      </inertial>
+      <collision name='linkLeft_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ati_bot_description/meshes/linkLeft_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='linkLeft_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://ati_bot_description/meshes/linkLeft_link.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

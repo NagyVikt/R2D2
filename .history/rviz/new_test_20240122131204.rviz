@@ -1,0 +1,34 @@
+Panel Name: ''
+Panels:
+  - Class: rviz_common/panels/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/PointCloud2
+      Alpha: 1.0
+      Color Transformer: RGB8
+      Enabled: true
+      Name: RealSense PointCloud
+      Queue Size: 10
+      Style: Points
+      Topic: /depth/color/points
+      Unreliable: false
+    - Class: rviz_default_plugins/LaserScan
+      Alpha: 1.0
+      Color: 255; 0; 0
+      Enabled: true
+      Name: Laser Scan
+      Queue Size: 10
+      Style: Points
+      Topic: /scan1_camera
+      Unreliable: false
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_camera_link
+    Frame Rate: 30
+Window Geometry:
+  Width: 1032
+  Height: 768
+  X: 50
+  Y: 50

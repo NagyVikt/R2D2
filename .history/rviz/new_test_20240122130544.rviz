@@ -1,0 +1,50 @@
+Panel Name: ''
+Panels:
+  - Class: rviz_common/panels/Displays
+    Name: Displays
+  - Class: rviz_common/panels/Selection
+    Name: Selection
+  - Class: rviz_common/panels/Tool Properties
+    Name: Tool Properties
+  - Class: rviz_common/panels/Views
+    Name: Views
+  - Class: rviz_common/panels/Time
+    Name: Time
+Visualization Manager:
+  Class: ''
+  Displays:
+    - Class: rviz_default_plugins/PointCloud2
+      Alpha: 1.0
+      Color Transformer: RGB8
+      Enabled: true
+      Name: RealSense PointCloud
+      Queue Size: 10
+      Style: Points
+      Topic: /camera/depth/color/points
+      Unreliable: false
+    - Class: rviz_default_plugins/LaserScan
+      Alpha: 1.0
+      Color: 255; 0; 0
+      Enabled: true
+      Name: Laser Scan
+      Queue Size: 10
+      Style: Points
+      Topic: /scan
+      Unreliable: false
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_camera_link
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/SetInitialPose
+    - Class: rviz_default_plugins/SetGoal
+Window Geometry:
+  X: 50
+  Y: 50
+  Width: 1200
+  Height: 800

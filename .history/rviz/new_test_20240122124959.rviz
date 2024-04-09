@@ -1,0 +1,64 @@
+Panel Name: ''
+Panels:
+  - Class: rviz/Displays
+    Help Height: 1
+    Name: Displays
+    Tree Height: 666
+  - Class: rviz/Selection
+    Name: Selection
+    Splitter Ratio: 0.5
+  - Class: rviz/Tool Properties
+    Name: Tool Properties
+    Splitter Ratio: 0.588235
+  - Class: rviz/Views
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Name: Time
+    Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ''
+  Displays:
+    - Alpha: 0.5
+      Class: rviz/PointCloud2
+      Color Transformer: RGB8
+      Decay Time: 0
+      Depth Transformer: XYZ
+      Enabled: true
+      Name: RealSense PointCloud
+      Queue Size: 10
+      Selectable: true
+      Style: Points
+      Topic: /depth/color/points
+      Unreliable: false
+      Value: 0
+    - Alpha: 1
+      Class: rviz/LaserScan
+      Color: 255; 0; 0
+      Color Transformer: FlatColor
+      Enabled: true
+      Name: Laser Scan
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Style: Points
+      Topic: /scan
+      Unreliable: false
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: map
+    Frame Rate: 30
+  Tools:
+    - Class: rviz/Interact
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+    - Class: rviz/SetGoal
+Window Geometry:
+  X: 0
+  Y: 0
+  Width: 1024
+  Height: 768
+  Maximized: true
