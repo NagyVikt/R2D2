@@ -338,7 +338,7 @@ def generate_launch_description():
                 output='both',
                 parameters=[{
                     'laser_scan_topic' : '/scan',
-                    'odom_topic' : '/odom_before',
+                    'odom_topic' : '/odom',
                     'publish_tf' : True,
                     'base_frame_id' : 'base_footprint',
                     'odom_frame_id' : 'odom',
@@ -532,10 +532,9 @@ def generate_launch_description():
     )
     # Throtle messages
 
-    throttle_node = Node(
-        package='topic_tools',
-        executable='throttle',
-        arguments=['messages', 'odom_before', '1.0', 'odom'],
+    odom_throttle_node = Node(
+        package='<your_package_name>',
+        executable='odom_throttle.py',
         name='odom_throttle',
         output='screen'
     )
@@ -676,13 +675,12 @@ def generate_launch_description():
     ld.add_action(demo_service_client)
 
     ld.add_action(ResetESP32)
-    ld.add_action(throttle_node)
+
 
 
     # ***************************    START RVIZ   **********************************
 
     ld.add_action(start_rviz_cmd)
-
 
     # ***********************    START NAV2 LAUNCHER FILE   ************************
 

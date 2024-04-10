@@ -676,13 +676,12 @@ def generate_launch_description():
     ld.add_action(demo_service_client)
 
     ld.add_action(ResetESP32)
-    ld.add_action(throttle_node)
+
 
 
     # ***************************    START RVIZ   **********************************
 
     ld.add_action(start_rviz_cmd)
-
 
     # ***********************    START NAV2 LAUNCHER FILE   ************************
 
