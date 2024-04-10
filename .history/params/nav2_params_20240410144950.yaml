@@ -421,8 +421,8 @@ local_costmap:
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
-      width: 7
-      height: 7
+      width: 8
+      height: 8
 
 
 
