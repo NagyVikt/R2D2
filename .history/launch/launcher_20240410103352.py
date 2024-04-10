@@ -700,7 +700,7 @@ def generate_launch_description():
     #ld.add_action(start_transform)
 
     ld.add_action(start_ros2_navigation_cmd)
-    #ld.add_action(costmap_clearer_node)
+    ld.add_action(costmap_clearer_node)
 
 
     return ld
