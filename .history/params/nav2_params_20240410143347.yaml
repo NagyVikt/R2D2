@@ -270,7 +270,7 @@ controller_server:
     
       # short_circuit_trajectory_evaluation: True
       # stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist","PreferForward" ]
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
       # #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
       PreferForward.penalty: 2.0
       #Kisebb oldalirányú mozgás engedélyezése. Deafult: 0.1
@@ -414,8 +414,8 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 5.0
+      update_frequency: 10.0
+      publish_frequency: 10.0
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
@@ -432,9 +432,9 @@ global_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: base_link
+      robot_base_frame: base_footprint
       use_sim_time: False
-      robot_radius: 0.3 # radius set and used, so no footprint points
+      robot_radius: 0.22 # radius set and used, so no footprint points
       resolution: 0.05
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
@@ -466,7 +466,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: true
         inflation_radius: 0.55
-        cost_scaling_factor: 5.0
+        cost_scaling_factor: 1.0
         inflate_unknown: false
         inflate_around_unknown: true
       always_send_full_costmap: True

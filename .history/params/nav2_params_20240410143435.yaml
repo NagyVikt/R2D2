@@ -270,7 +270,7 @@ controller_server:
     
       # short_circuit_trajectory_evaluation: True
       # stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist","PreferForward" ]
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
       # #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
       PreferForward.penalty: 2.0
       #Kisebb oldalirányú mozgás engedélyezése. Deafult: 0.1
