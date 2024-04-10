@@ -250,8 +250,8 @@ controller_server:
       min_speed_theta: 0.0
       acc_lim_x: 3.5
       acc_lim_y: 0.0
-      acc_lim_theta: 2.5
-      decel_lim_x: -2.5
+      acc_lim_theta: 3.5
+      decel_lim_x: -3.5
       decel_lim_y: 0.0
       decel_lim_theta: -3.5
       vx_samples: 15
@@ -286,11 +286,11 @@ controller_server:
       PathAlign.forward_point_distance: 0.2
       GoalAlign.forward_point_distance: 0.2
       #Nagyobb súlyt ad az útvonalon való maradásnak és a célponthoz való közelítésnek.
-      PathDist.scale: 20.0
-      GoalDist.scale: 20.0
+      PathDist.scale: 30.0
+      GoalDist.scale: 40.0
 
       #Erős hangsúly a cél irányába történő forgásra.
-      RotateToGoal.scale: 32.0 #32.0
+      RotateToGoal.scale: 40.0 #32.0
       RotateToGoal.slowing_factor: 5.0 #10.0
       RotateToGoal.lookahead_time: -1.0
 
@@ -604,8 +604,8 @@ velocity_smoother:
     feedback: "OPEN_LOOP"
     max_velocity: [0.4, 0.0, 1.0]
     min_velocity: [-0.4, 0.0, -1.0] 
-    max_accel: [2.5, 0.0, 3.5]
-    max_decel: [-2.5, 0.0, -3.5]
+    max_accel: [3.5, 0.0, 3.5]
+    max_decel: [-3.5, 0.0, -3.5]
     odom_topic: "odom"
     odom_duration: 0.1
     deadband_velocity: [0.001, 0.0, 0.001]
