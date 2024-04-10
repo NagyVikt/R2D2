@@ -242,7 +242,7 @@ controller_server:
       max_angular_accel: 3.2
       simulate_ahead_time: 3.0
 
-      min_vel_x: 0.0
+      min_vel_x: -0.4
       min_vel_y: 0.0
       max_vel_x: 0.4
       max_vel_y: 0.0
@@ -259,7 +259,7 @@ controller_server:
       vx_samples: 20
       vy_samples: 0
       vtheta_samples: 20
-      sim_time: 1.7
+      sim_time: 2.7
       #linear_granularity és angular_granularity: Ezek a paraméterek meghatározzák, 
       #hogy milyen finoman bontja a tervező a lineáris (előre/hátra) és az anguláris (forgási) mozgásokat a tervezés során. 
       #A linear_granularity 0.05 méterenként, az angular_granularity pedig 0.025 radiánként van beállítva, ami segít finomítani a tervezett útvonalakat és manővereket.
@@ -302,7 +302,7 @@ controller_server:
       #hogy a "RotateToGoal" kritikus komponens mennyi ideig tekint előre a cél irányába történő forgatás során. Ha ez az érték -1.0, valószínűleg azt jelenti, 
       #hogy a paraméter alapértelmezett viselkedést követ, vagy nem használ előretekintési időt a cél felé fordulás során. 
       #Az előretekintési idő a robotnak a cél irányába történő fordulásának finomítására szolgál, hogy optimalizálja a forduló mozgását és javítsa a navigációs hatékonyságot.
-      RotateToGoal.lookahead_time: -1.0
+      RotateToGoal.lookahead_time: 3.0
 
 
 # controller_server:
@@ -416,13 +416,13 @@ local_costmap:
     ros__parameters:
       transform_tolerance: 0.5  # Adjust this value based on your system's latency
 
-      update_frequency: 10.0
-      publish_frequency: 10.0
+      update_frequency: 5.0
+      publish_frequency: 5.0
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
-      width: 8
-      height: 8
+      width: 10
+      height: 10
 
 
 
@@ -437,8 +437,7 @@ global_costmap:
       robot_base_frame: base_link
       use_sim_time: False
       transform_tolerance: 0.5  # Adjust this value based on your system's latency
-      width: 30
-      height: 30
+
       robot_radius: 0.3 # radius set and used, so no footprint points
       resolution: 0.05
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]

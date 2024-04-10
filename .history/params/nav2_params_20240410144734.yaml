@@ -242,7 +242,7 @@ controller_server:
       max_angular_accel: 3.2
       simulate_ahead_time: 3.0
 
-      min_vel_x: 0.0
+      min_vel_x: -0.4
       min_vel_y: 0.0
       max_vel_x: 0.4
       max_vel_y: 0.0
@@ -259,7 +259,7 @@ controller_server:
       vx_samples: 20
       vy_samples: 0
       vtheta_samples: 20
-      sim_time: 1.7
+      sim_time: 2.7
       #linear_granularity és angular_granularity: Ezek a paraméterek meghatározzák, 
       #hogy milyen finoman bontja a tervező a lineáris (előre/hátra) és az anguláris (forgási) mozgásokat a tervezés során. 
       #A linear_granularity 0.05 méterenként, az angular_granularity pedig 0.025 radiánként van beállítva, ami segít finomítani a tervezett útvonalakat és manővereket.
@@ -416,8 +416,8 @@ local_costmap:
     ros__parameters:
       transform_tolerance: 0.5  # Adjust this value based on your system's latency
 
-      update_frequency: 10.0
-      publish_frequency: 10.0
+      update_frequency: 5.0
+      publish_frequency: 5.0
       global_frame: odom
       robot_base_frame: base_link
       rolling_window: true
