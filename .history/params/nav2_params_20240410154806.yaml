@@ -454,8 +454,8 @@ global_costmap:
     ros__parameters:
       footprint_padding: 0.03
       transform_tolerence: 1.0
-      update_frequency: 1.0
-      publish_frequency: 1.0
+      update_frequency: 3.0
+      publish_frequency: 3.0
       global_frame: map
       robot_base_frame: base_link
       robot_radius: 0.3 # radius set and used, so no footprint points
