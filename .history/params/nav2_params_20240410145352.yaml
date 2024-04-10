@@ -240,7 +240,7 @@ controller_server:
       forward_sampling_distance: 0.5
       rotate_to_heading_angular_vel: 1.8
       max_angular_accel: 3.2
-      simulate_ahead_time: 1.0
+      simulate_ahead_time: 3.0
 
       min_vel_x: 0.0
       min_vel_y: 0.0
