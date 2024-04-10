@@ -407,16 +407,16 @@ local_costmap:
   local_costmap:
     ros__parameters:
 
-      update_frequency: 5.0
-      publish_frequency: 2.0
+      update_frequency: 10.0
+      publish_frequency: 10.0
       global_frame: odom
       robot_base_frame: base_link
-      use_sim_time: False
       rolling_window: true
       width: 7
       height: 7
+      use_sim_time: False
 
-
+      transform_tolerance: 0.4  # Adjust this value based on your system's latency
 
 
 
@@ -430,6 +430,9 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
+      transform_tolerance: 0.4  # Adjust this value based on your system's latency
+      width: 15
+      height: 15
       robot_radius: 0.3 # radius set and used, so no footprint points
       resolution: 0.05
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -462,10 +465,10 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         enabled: true
         inflation_radius: 0.55
-        cost_scaling_factor: 2.0
+        cost_scaling_factor: 5.0
         inflate_unknown: false
         inflate_around_unknown: true
-      always_send_full_costmap: true
+      always_send_full_costmap: false
 
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
@@ -546,8 +549,6 @@ smoother_server:
 
 behavior_server:
   ros__parameters:
-    use_sim_time: False
-
     local_costmap_topic: local_costmap/costmap_raw
     global_costmap_topic: global_costmap/costmap_raw
     local_footprint_topic: local_costmap/published_footprint
@@ -564,7 +565,7 @@ behavior_server:
     local_frame: odom
     global_frame: map
     robot_base_frame: base_link
-    transform_tolerance: 0.3
+    transform_tolerance: 0.5
     simulate_ahead_time: 5.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.05
@@ -601,11 +602,9 @@ velocity_smoother:
 
 collision_detector:
   ros__parameters:
-    use_sim_time: False
-
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
-    transform_tolerance: 0.3
+    transform_tolerance: 0.5
     source_timeout: 3.0
     base_shift_correction: True
     polygons: ["PolygonFront"]
