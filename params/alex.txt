@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Check if a directory was passed as an argument
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <search-directory> <search-term>"
+    exit 1
+fi
+
+# Assign the first argument to SEARCH_DIR
+SEARCH_DIR=$1
+
+# Assign the second argument to SEARCH_TERM
+SEARCH_TERM=$2
+
+# Use grep to recursively search for the term in the directory
+grep -arnw "$SEARCH_DIR" -e "$SEARCH_TERM"
+
+
+
+#include <chrono>
+
+nav2_util::CallbackReturn
+BtNavigator::on_configure(const rclcpp_lifecycle::State & /*state*/)
+{
+  RCLCPP_INFO(get_logger(), "Configuring");
+
+  // Using std::chrono::nanoseconds directly for the duration
+  tf_ = std::make_shared<tf2_ros::Buffer>(
+    get_clock(), 
+    std::chrono::nanoseconds(std::chrono::seconds(30)) // Converts 30 seconds to nanoseconds
+  );
+
+  auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(
+    get_node_base_interface(), get_node_timers_interface());
+  tf_->setCreateTimerInterface(timer_interface);
+  tf_->setUsingDedicatedThread(true);
+  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_, this, false);
+
+  // ... rest of your code ...
+}
