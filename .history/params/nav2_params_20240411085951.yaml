@@ -266,17 +266,17 @@ controller_server:
     
       # short_circuit_trajectory_evaluation: True
       # stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", "PreferForward"]
-      #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
-      PreferForward.penalty: 2.0
-      #Kisebb oldalirányú mozgás engedélyezése. Deafult: 0.1
-      PreferForward.strafe_x: 0.2
-      #Engedélyezi a robotnak, hogy enyhén forduljon, miközben előre halad. Default: 0.2
-      PreferForward.strafe_theta: 0.4
-      #Erősebb hangsúlyt fektet a megfelelő irányba való fordulásra.
-      PreferForward.theta_scale: 10.0
-      #Növeli az előre haladás preferálásának fontosságát. Default: 1.0
-      PreferForward.scale: 10.0
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist" ]
+      # #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
+      # PreferForward.penalty: 2.0
+      # #Kisebb oldalirányú mozgás engedélyezése. Deafult: 0.1
+      # PreferForward.strafe_x: 0.2
+      # #Engedélyezi a robotnak, hogy enyhén forduljon, miközben előre halad. Default: 0.2
+      # PreferForward.strafe_theta: 0.4
+      # #Erősebb hangsúlyt fektet a megfelelő irányba való fordulásra.
+      # PreferForward.theta_scale: 10.0
+      # #Növeli az előre haladás preferálásának fontosságát. Default: 1.0
+      # PreferForward.scale: 10.0
       #Nagyobb hangsúly az akadályok elkerülésére, ami növeli a biztonságot. Default: 0.02 CHATGPT: 10.0
       BaseObstacle.scale: 10.0
       #Nagyobb hangsúly az útvonalhoz és a célhoz való igazodásra. Deafult 32.0 es 20.0
