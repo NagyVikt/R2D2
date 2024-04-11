@@ -1,51 +1,42 @@
-# amcl:
-#   ros__parameters:
-#     alpha1: 0.2
-#     alpha2: 0.2
-#     alpha3: 0.2
-#     alpha4: 0.2
-#     alpha5: 0.2
-#     base_frame_id: "base_footprint"
-#     beam_skip_distance: 0.5
-#     beam_skip_error_threshold: 0.9
-#     beam_skip_threshold: 0.3
-#     do_beamskip: false
-#     global_frame_id: "map"
-#     lambda_short: 0.1
-#     laser_likelihood_max_dist: 2.0
-#     laser_max_range: 100.0
-#     laser_min_range: -1.0
-#     laser_model_type: "likelihood_field"
-#     max_beams: 60
-#     max_particles: 2000
-#     min_particles: 500
-#     odom_frame_id: "odom"
-#     pf_err: 0.05
-#     pf_z: 0.99
-#     recovery_alpha_fast: 0.0
-#     recovery_alpha_slow: 0.0
-#     resample_interval: 1
-#     robot_model_type: "nav2_amcl::DifferentialMotionModel"
-#     save_pose_rate: 0.5
-#     sigma_hit: 0.2
-#     tf_broadcast: true
-#     transform_tolerance: 1.0
-#     update_min_a: 0.2
-#     update_min_d: 0.25
-#     z_hit: 0.5
-#     z_max: 0.05
-#     z_rand: 0.5
-#     z_short: 0.05
-#     scan_topic: scan
-#     map_topic: map
-#     set_initial_pose: false
-#     always_reset_initial_pose: false
-#     first_map_only: false
-#     initial_pose:
-#       x: 0.0
-#       y: 0.0
-#       z: 0.0
-#       yaw: 0.0
+amcl:
+  ros__parameters:
+    alpha1: 0.2
+    alpha2: 0.2
+    alpha3: 0.2
+    alpha4: 0.2
+    alpha5: 0.2
+    base_frame_id: "base_link"
+    beam_skip_distance: 0.5
+    beam_skip_error_threshold: 0.9
+    beam_skip_threshold: 0.3
+    do_beamskip: false
+    global_frame_id: "map"
+    lambda_short: 0.1
+    laser_likelihood_max_dist: 2.0
+    laser_max_range: 100.0
+    laser_min_range: -1.0
+    laser_model_type: "likelihood_field"
+    max_beams: 60
+    max_particles: 2000
+    min_particles: 500
+    odom_frame_id: "odom"
+    pf_err: 0.05
+    pf_z: 0.99
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+    resample_interval: 1
+    robot_model_type: "nav2_amcl/DifferentialMotionModel"
+    save_pose_rate: 0.5
+    sigma_hit: 0.2
+    tf_broadcast: true
+    transform_tolerance: 0.45
+    update_min_a: 0.2
+    update_min_d: 0.25
+    z_hit: 0.5
+    z_max: 0.05
+    z_rand: 0.5
+    z_short: 0.05
+    scan_topic: scan
 
 bt_navigator:
   ros__parameters:
@@ -57,7 +48,7 @@ bt_navigator:
     default_nav_through_poses_bt_xml: "$(find-pkg-share nav2_bt_navigator)/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml"
     always_reload_bt_xml: true
     bt_loop_duration: 10
-    default_server_timeout: 20
+    default_server_timeout: 30
     wait_for_service_timeout: 1000
     action_server_result_timeout: 900.0
     navigators: ["navigate_to_pose", "navigate_through_poses"]
@@ -135,10 +126,10 @@ bt_navigator:
 
 controller_server:
   ros__parameters:
-    controller_frequency: 15.0
-    min_x_velocity_threshold: 0.1
+    controller_frequency: 10.0
+    min_x_velocity_threshold: 0.06
     min_y_velocity_threshold: 0.0
-    min_theta_velocity_threshold: 0.1
+    min_theta_velocity_threshold: 0.09
     progress_checker_plugins: ["progress_checker"] # progress_checker_plugin: "progress_checker" For Humble and older
     goal_checker_plugins: ["goal_checker"]
     controller_plugins: ["FollowPath"]
@@ -161,7 +152,7 @@ controller_server:
       max_angular_accel: 3.5
       simulate_ahead_time: 3.0
 
-      min_vel_x: -0.4
+      min_vel_x: 0.4
       min_vel_y: 0.0
       max_vel_x: 0.4
       max_vel_y: 0.0
@@ -175,9 +166,9 @@ controller_server:
       decel_lim_x: -2.5
       decel_lim_y: 0.0
       decel_lim_theta: -3.5
-      vx_samples: 10
+      vx_samples: 20
       vy_samples: 0
-      vtheta_samples: 25
+      vtheta_samples: 50
       sim_time: 1.7
     
       linear_granularity: 0.05
@@ -187,7 +178,7 @@ controller_server:
     
       # short_circuit_trajectory_evaluation: True
       # stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist" ]
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", ]
       # #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
       # PreferForward.penalty: 2.0
       # #Kisebb oldalirányú mozgás engedélyezése. Deafult: 0.1
@@ -197,9 +188,9 @@ controller_server:
       # #Erősebb hangsúlyt fektet a megfelelő irányba való fordulásra.
       # PreferForward.theta_scale: 10.0
       # #Növeli az előre haladás preferálásának fontosságát. Default: 1.0
-     # PreferForward.scale: 10.0
+      # PreferForward.scale: 10.0
       #Nagyobb hangsúly az akadályok elkerülésére, ami növeli a biztonságot. Default: 0.02 CHATGPT: 10.0
-      BaseObstacle.scale: 0.02
+      BaseObstacle.scale: 10.0
       #Nagyobb hangsúly az útvonalhoz és a célhoz való igazodásra. Deafult 32.0 es 20.0
       PathAlign.scale: 20.0
       GoalAlign.scale: 15.0
@@ -207,14 +198,14 @@ controller_server:
       PathAlign.forward_point_distance: 0.1
       GoalAlign.forward_point_distance: 0.1
       #Nagyobb súlyt ad az útvonalon való maradásnak és a célponthoz való közelítésnek.
-      PathDist.scale: 15.0
-      GoalDist.scale: 10.0
+      PathDist.scale: 30.0
+      GoalDist.scale: 20.0
 
       #Erős hangsúly a cél irányába történő forgásra.
-      RotateToGoal.scale: 25.0 #32.0
-      RotateToGoal.slowing_factor: 3.0 #10.0
-      RotateToGoal.lookahead_time: 1.0
-      required_movement_radius: 0.05 #nekem 0.1
+      RotateToGoal.scale: 32.0 #32.0
+      RotateToGoal.slowing_factor: 5.0 #10.0
+      RotateToGoal.lookahead_time: -1.0
+  required_movement_radius: 0.1 #nekem 0.1
 #
       
 #       short_circuit_trajectory_evaluation: True
@@ -259,7 +250,7 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      transform_tolerance: 0.4
+
       update_frequency: 10.0
       publish_frequency: 5.0
       global_frame: odom
@@ -401,7 +392,7 @@ smoother_server:
       path_upsampling_factor: 1     # 0 - path remains downsampled, 1 - path is upsampled back to original granularity using cubic bezier, 2... - more upsampling
       keep_start_orientation: true  # whether to prevent the start orientation from being smoothed
       keep_goal_orientation: true   # whether to prevent the gpal orientation from being smoothed
-      minimum_turning_radius: 0.0  # minimum turning radius the robot can perform. Can be set to 0.0 (or w_curve can be set to 0.0 with the same effect) for diff-drive/holonomic robots
+      minimum_turning_radius: 0.4  # minimum turning radius the robot can perform. Can be set to 0.0 (or w_curve can be set to 0.0 with the same effect) for diff-drive/holonomic robots
       w_curve: 30.0                 # weight to enforce minimum_turning_radius
       w_dist: 0.0                   # weight to bind path to original as optional replacement for cost weight
       w_smooth: 2000000.0           # weight to maximize smoothness of path
@@ -446,7 +437,7 @@ behavior_server:
 waypoint_follower:
   ros__parameters:
     loop_rate: 20
-    stop_on_failure: false
+    stop_on_failure: true
     action_server_result_timeout: 900.0
     waypoint_task_executor_plugin: "wait_at_waypoint" # This should match the plugin's declared name in the plugin description file.
     wait_at_waypoint:
@@ -469,107 +460,15 @@ velocity_smoother:
     deadband_velocity: [0.001, 0.0, 0.001]
     velocity_timeout: 0.1
 
-collision_monitor:
-  ros__parameters:
-    base_frame_id: "base_footprint"
-    odom_frame_id: "odom"
-    cmd_vel_in_topic: "cmd_vel_smoothed"
-    cmd_vel_out_topic: "cmd_vel"
-    state_topic: "collision_monitor_state"
-    transform_tolerance: 0.5
-    source_timeout: 5.0
-    base_shift_correction: True
-    stop_pub_timeout: 2.0
-    enable_stamped_cmd_vel: False
-    use_realtime_priority: false
-    polygons: ["PolygonStop", "PolygonSlow", "FootprintApproach"]
-    PolygonStop:
-      type: "circle"
-      radius: 0.3
-      action_type: "stop"
-      min_points: 4  # max_points: 3 for Humble
-      visualize: True
-      polygon_pub_topic: "polygon_stop"
-      enabled: True
-    PolygonSlow:
-      type: "polygon"
-      points: "[[1.0, 1.0], [1.0, -1.0], [-0.5, -1.0], [-0.5, 1.0]]"
-      action_type: "slowdown"
-      min_points: 4  # max_points: 3 for Humble
-      slowdown_ratio: 0.3
-      visualize: True
-      polygon_pub_topic: "polygon_slowdown"
-      enabled: True
-    PolygonLimit:
-      type: "polygon"
-      points: "[[0.5, 0.5], [0.5, -0.5], [-0.5, -0.5], [-0.5, 0.5]]"
-      action_type: "limit"
-      min_points: 4  # max_points: 3 for Humble
-      linear_limit: 0.4
-      angular_limit: 0.5
-      visualize: True
-      polygon_pub_topic: "polygon_limit"
-      enabled: True
-    FootprintApproach:
-      type: "polygon"
-      action_type: "approach"
-      footprint_topic: "/local_costmap/published_footprint"
-      time_before_collision: 2.0
-      simulation_time_step: 0.02
-      min_points: 6  # max_points: 5 for Humble
-      visualize: False
-      enabled: True
-    VelocityPolygonStop:
-      type: "velocity_polygon"
-      action_type: "stop"
-      min_points: 6
-      visualize: True
-      enabled: True
-      polygon_pub_topic: "velocity_polygon_stop"
-      velocity_polygons: ["rotation", "translation_forward", "translation_backward", "stopped"]
-      holonomic: false
-      rotation:
-        points: "[[0.3, 0.3], [0.3, -0.3], [-0.3, -0.3], [-0.3, 0.3]]"
-        linear_min: 0.0
-        linear_max: 0.05
-        theta_min: -1.0
-        theta_max: 1.0
-      translation_forward:
-        points: "[[0.35, 0.3], [0.35, -0.3], [-0.2, -0.3], [-0.2, 0.3]]"
-        linear_min: 0.0
-        linear_max: 1.0
-        theta_min: -1.0
-        theta_max: 1.0
-      translation_backward:
-        points: "[[0.2, 0.3], [0.2, -0.3], [-0.35, -0.3], [-0.35, 0.3]]"
-        linear_min: -1.0
-        linear_max: 0.0
-        theta_min: -1.0
-        theta_max: 1.0
-      # This is the last polygon to be checked, it should cover the entire range of robot's velocities
-      # It is used as the stopped polygon when the robot is not moving and as a fallback if the velocity
-      # is not covered by any of the other sub-polygons
-      stopped:
-        points: "[[0.25, 0.25], [0.25, -0.25], [-0.25, -0.25], [-0.25, 0.25]]"
-        linear_min: -1.0
-        linear_max: 1.0
-        theta_min: -1.0
-        theta_max: 1.0
-    observation_sources: ["scan"]
-    scan:
-      source_timeout: 0.2
-      type: "scan"
-      topic: "/scan"
-      enabled: True
-
 
 
 collision_detector:
   ros__parameters:
-    base_frame_id: "base_footprint"
+
+    base_frame_id: "base_link"
     odom_frame_id: "odom"
-    transform_tolerance: 0.5
-    source_timeout: 5.0
+    transform_tolerance: 0.3
+    source_timeout: 3.0
     base_shift_correction: True
     polygons: ["PolygonFront"]
     PolygonFront:

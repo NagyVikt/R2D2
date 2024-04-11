@@ -338,7 +338,7 @@ def generate_launch_description():
                 output='both',
                 parameters=[{
                     'laser_scan_topic' : '/scan',
-                    'odom_topic' : '/odom',
+                    'odom_topic' : '/odom_before',
                     'publish_tf' : True,
                     'base_frame_id' : 'base_link',
                     'odom_frame_id' : 'odom',
@@ -441,7 +441,7 @@ def generate_launch_description():
                        ],
             parameters = [{
                 'target_frame': 'base_link',
-                'transform_tolerance': 0.2,
+                'transform_tolerance': 0.01,
                 'min_height': 0.0,
                 'max_height': 2.0,
                 'angle_min': -3.1416,  # -π
@@ -671,7 +671,7 @@ def generate_launch_description():
 
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_joint_state_publisher_cmd)
-    ld.add_action(start_transform)
+    #ld.add_action(start_transform)
 
     # ***************************    HOVERBOARD  **********************************
     #EZ LETESITI A MICROCONTROLLER KAPCSOLATOT

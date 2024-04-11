@@ -343,7 +343,7 @@ def generate_launch_description():
                     'base_frame_id' : 'base_link',
                     'odom_frame_id' : 'odom',
                     'init_pose_from_topic' : '',
-                    'freq' : 18.0}],
+                    'freq' : 17.0}],
             )
 
 
@@ -441,7 +441,7 @@ def generate_launch_description():
                        ],
             parameters = [{
                 'target_frame': 'base_link',
-                'transform_tolerance': 0.2,
+                'transform_tolerance': 0.01,
                 'min_height': 0.0,
                 'max_height': 2.0,
                 'angle_min': -3.1416,  # -π
