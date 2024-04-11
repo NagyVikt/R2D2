@@ -440,7 +440,7 @@ def generate_launch_description():
             remappings=[('cloud_in', [LaunchConfiguration(variable_name='scanner'), '/cloud']),
                        ],
             parameters = [{
-                'target_frame': 'base_link',
+                'target_frame': 'base_footprint',
                 'transform_tolerance': 0.01,
                 'min_height': 0.0,
                 'max_height': 2.0,
@@ -686,7 +686,7 @@ def generate_launch_description():
     ld.add_action(demo_service_client)
 
     ld.add_action(ResetESP32)
-    #ld.add_action(throttle_node)
+    ld.add_action(throttle_node)
 
 
 

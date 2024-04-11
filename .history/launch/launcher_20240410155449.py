@@ -686,7 +686,7 @@ def generate_launch_description():
     ld.add_action(demo_service_client)
 
     ld.add_action(ResetESP32)
-    #ld.add_action(throttle_node)
+    ld.add_action(throttle_node)
 
 
 
