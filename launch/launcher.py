@@ -50,7 +50,7 @@ def generate_launch_description():
 
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     use_rviz = LaunchConfiguration('use_rviz')
-    default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2_config2.rviz')
+    default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2_config3.rviz')
     #default_rviz_config_path = os.path.join(pkg_share, 'rviz/slamwithrealsenselidar.rviz')
 
     # ==============================================================================

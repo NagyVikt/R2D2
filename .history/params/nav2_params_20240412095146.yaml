@@ -148,11 +148,13 @@ controller_server:
     goal_checker_plugins: ["general_goal_checker"]
     progress_checker_plugins: ["progress_checker"]
     controller_plugins: ["FollowPath"]
+    current_goal_checker: ["general_goal_checker"] # "precise_goal_checker"
+
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
       required_movement_radius: 0.01
       movement_time_allowance: 5.0
-    general_goal_checker:
+    goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.35
       yaw_goal_tolerance: 0.35
@@ -429,7 +431,7 @@ smoother_server:
 
       optimizer:
         max_iterations: 100           # max iterations of smoother
-        debug_optimizer: true        # print debug info
+        debug_optimizer: false        # print debug info
         gradient_tol: 5000.0
         fn_tol: 1.0e-15
         param_tol: 1.0e-20

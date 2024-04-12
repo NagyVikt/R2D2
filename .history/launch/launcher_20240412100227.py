@@ -28,12 +28,17 @@ def on_exit_event(context):
 
 
 def generate_launch_description():
+     # Set the logging level to DEBUG for all nodes launched in this session
+    os.environ['RCUTILS_LOGGING_SEVERITY'] = 'DEBUG'
+
 
     # ==============================================================================
     # =========================    DEFAULT VARIABLES   =============================
     # ==============================================================================
-
     pkg_share = FindPackageShare(package='r2d2').find('r2d2')
+    nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
+
+
     default_model_path = os.path.join(pkg_share, 'models/r2d2.urdf')
     model = LaunchConfiguration('model')
     namespace = LaunchConfiguration('namespace')
@@ -45,15 +50,15 @@ def generate_launch_description():
 
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     use_rviz = LaunchConfiguration('use_rviz')
-    default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2_config.rviz')
+    default_rviz_config_path = os.path.join(pkg_share, 'rviz/nav2_config3.rviz')
     #default_rviz_config_path = os.path.join(pkg_share, 'rviz/slamwithrealsenselidar.rviz')
 
     # ==============================================================================
     # ===========================    NAV2 VARIABLES   ==============================
     # ==============================================================================
 
-    nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
-    static_map_path = os.path.join(nav2_dir, 'maps', 'skynet.yaml')
+ 
+    static_map_path = os.path.join(pkg_share, 'maps', 'skynet.yaml')
     nav2_params_path = os.path.join(pkg_share, 'params', 'nav2_params.yaml')
     nav2_launch_dir = os.path.join(nav2_dir, 'launch') 
     nav2_bt_path = FindPackageShare(package='nav2_bt_navigator').find('nav2_bt_navigator')
@@ -90,7 +95,7 @@ def generate_launch_description():
     inverted_left = LaunchConfiguration('inverted', default='false')
     angle_compensate_left = LaunchConfiguration('angle_compensate', default='true')
     serial_portleft = LaunchConfiguration('serial_port', default='/dev/leftlidar')
-    serial_baudrate_left = LaunchConfiguration('serial_baudrate', default='115200')
+    serial_baudrate_left = LaunchConfiguration('serial_baudrate', default='256000')
     frame_idleft = LaunchConfiguration('frame_id', default='lidarleft')
     scan_mode_left = LaunchConfiguration('scan_mode', default='Boost')
     topic_nameleft = LaunchConfiguration('topic_name', default ='scan_left')
@@ -121,6 +126,12 @@ def generate_launch_description():
       name='model', 
       default_value=default_model_path, 
       description='Absolute path to robot urdf file')
+    
+
+    declare_scanner_cmd = DeclareLaunchArgument(
+            name='scanner', default_value='scanner',
+            description='Namespace for sample topics'
+        )
 
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -331,10 +342,10 @@ def generate_launch_description():
                     'laser_scan_topic' : '/scan',
                     'odom_topic' : '/odom',
                     'publish_tf' : True,
-                    'base_frame_id' : 'base_footprint',
+                    'base_frame_id' : 'base_link',
                     'odom_frame_id' : 'odom',
                     'init_pose_from_topic' : '',
-                    'freq' : 14.0}],
+                    'freq' : 18.0}],
             )
 
 
@@ -350,7 +361,7 @@ def generate_launch_description():
                     'base_frame_id' : 'base_footprint',
                     'odom_frame_id' : 'odom',
                     'init_pose_from_topic' : '',
-                    'freq' : 14.0}],
+                    'freq' : 5.0}],
             )
 
     # --------------------------------- LIDAR RIGHT ---------------------------------
@@ -422,8 +433,32 @@ def generate_launch_description():
         package = "laser_scan_merger_cam",
         executable= 'ros2_laser_scan_merger',
         name="ros2_laser_scan_merger",
-        output = "screen",
+        output = "screen"
+
     )
+
+    pointcloud_to_laserscan_merge_node =  Node(
+            package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
+            remappings=[('cloud_in', [LaunchConfiguration(variable_name='scanner'), '/cloud']),
+                       ],
+            parameters = [{
+                'target_frame': 'base_link',
+                'transform_tolerance': 0.1,
+                'min_height': 0.0,
+                'max_height': 2.0,
+                'angle_min': -3.1416,  # -π
+                'angle_max': 3.1416,   # π
+                'angle_increment': 0.0087,  # π/360.0
+                'scan_time': 0.33,
+                'range_min': 0.35,
+                'range_max': 12.0,
+                'use_inf': True,
+                'inf_epsilon': 1.0
+            }],
+            name='pointcloud_to_laserscan'
+        )
+
+
 
 
 
@@ -444,6 +479,14 @@ def generate_launch_description():
       parameters=[{'robot_description': Command(['xacro ', model])}],
       remappings=remappings,
       arguments=[default_model_path])
+    
+    start_static_transform_publisher_cmd = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        arguments=['0', '0', '0', '0', '0', '0', '0', 'base_link', 'laser_frame'],
+        name='static_tf_pub_base_footprint_to_laser_frame'
+    )
+
 
 
     # --------------------------------- NAV2 ----------------------------------------
@@ -489,13 +532,32 @@ def generate_launch_description():
         output='screen',
         arguments=['--force-discover']
     )
+    # Throtle messages
+
+    throttle_node = Node(
+        package='topic_tools',
+        executable='throttle',
+        arguments=['messages', 'odom_before', '1.0', 'odom'],
+        name='odom_throttle',
+        output='screen'
+    )
+
+
+    costmap_clearer_node = Node(
+        package='costmap_clearer',
+        executable='costmap_clearer_node.py',
+        name='costmap_clearer_node',
+        output='screen',
+    )
+
+
 
 
     start_transform =  Node(
             package='tf2_ros',
             namespace = 'scan_to_map',
             executable='static_transform_publisher',
-            arguments= ["0", "0", "0", "0", "0", "0", "map", "scan"]
+            arguments= ["0", "0", "0", "0", "0", "0", "base_link", "base_footprint"]
         )
 
     lifecycle_node =  LifecycleNode(package='demo_lifecycle', executable='lifecycle_talker',
@@ -541,6 +603,8 @@ def generate_launch_description():
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_bt_xml_cmd)
     ld.add_action(declare_use_sim_time_cmd)
+
+    ld.add_action(declare_scanner_cmd)
 
     # -------------------------------   LIDARS    ----------------------------------
 
@@ -599,6 +663,7 @@ def generate_launch_description():
     ld.add_action(start_lidarright_filter)
 
     ld.add_action(laser_scan_merge_node)
+    ld.add_action(pointcloud_to_laserscan_merge_node)
 
     ld.add_action(start_visual_odometry) 
 
@@ -608,6 +673,7 @@ def generate_launch_description():
 
     ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_joint_state_publisher_cmd)
+    ld.add_action(start_transform)
 
     # ***************************    HOVERBOARD  **********************************
     #EZ LETESITI A MICROCONTROLLER KAPCSOLATOT
@@ -622,16 +688,21 @@ def generate_launch_description():
     ld.add_action(demo_service_client)
 
     ld.add_action(ResetESP32)
+    #ld.add_action(throttle_node)
+
+
 
     # ***************************    START RVIZ   **********************************
 
     ld.add_action(start_rviz_cmd)
+
 
     # ***********************    START NAV2 LAUNCHER FILE   ************************
 
     #ld.add_action(start_transform)
 
     ld.add_action(start_ros2_navigation_cmd)
+    #ld.add_action(costmap_clearer_node)
 
 
     return ld

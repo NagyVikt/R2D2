@@ -429,7 +429,7 @@ smoother_server:
 
       optimizer:
         max_iterations: 100           # max iterations of smoother
-        debug_optimizer: true        # print debug info
+        debug_optimizer: false        # print debug info
         gradient_tol: 5000.0
         fn_tol: 1.0e-15
         param_tol: 1.0e-20
