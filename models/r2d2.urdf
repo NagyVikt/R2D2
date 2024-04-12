@@ -165,14 +165,14 @@
         </geometry>
       </collision>
       
-      <xacro:cylinder_inertia m="110.5" r="${wheel_radius}" h="${wheel_width}"/>
+      <xacro:cylinder_inertia m="2.0" r="${wheel_radius}" h="${wheel_width}"/>
       
     </link>
 
     <!-- Connect the wheels to the base_link at the appropriate location, and 
          define a continuous joint to allow the wheels to freely rotate about
          an axis -->
-    <joint name="${prefix}_joint" type="revolute">
+    <joint name="${prefix}_joint" type="continues">
       <parent link="base_link"/>
       <child link="${prefix}_link"/>
       <origin xyz="${x_reflect*wheel_xoff} ${y_reflect*(base_width/2+wheel_ygap)} -0.65199" rpy="0 0 0"/>

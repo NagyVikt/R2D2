@@ -64,7 +64,7 @@
   </link>
 
   <joint name="base_footprint_joint" type="fixed">
-    <origin xyz="0.0 0.0 0.73" rpy="0 0 ${pi}"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     <parent link="base_footprint"/>
     <child link="base_link"/>
   </joint>
@@ -72,7 +72,7 @@
   <link name="base_link">
     <inertial>
       <origin
-        xyz="0.000766841725954676 2.02048717095321E-17 -0.329344123917288"
+        xyz="0 2.02048717095321E-17 -0.329344123917288"
         rpy="0 0 0" />
       <mass
         value="205.727203925287" />
@@ -172,14 +172,14 @@
     <!-- Connect the wheels to the base_link at the appropriate location, and 
          define a continuous joint to allow the wheels to freely rotate about
          an axis -->
-    <joint name="${prefix}_joint" type="revolute">
+    <joint name="${prefix}_joint" type="continues">
       <parent link="base_link"/>
       <child link="${prefix}_link"/>
       <origin xyz="${x_reflect*wheel_xoff} ${y_reflect*(base_width/2+wheel_ygap)} -0.65199" rpy="0 0 0"/>
 
 
-      <limit upper="3.1415" lower="-3.1415" effort="1" velocity="1"/>
-      <axis xyz="0 -1 0"/>
+      <limit upper="3.1415" lower="-3.1415" effort="1" velocity="2"/>
+      <axis xyz="0 1 0"/>
     </joint>
 
   </xacro:macro>
@@ -189,7 +189,7 @@
   <joint name="lidar_left_joint" type="fixed">
     <parent link="base_link"/>
     <child link="lidarleft"/>
-    <origin xyz="-0.3975 0.265 -0.44" rpy="0 0 ${pi/2}"/>
+    <origin xyz="-0.31 0.2 -0.44" rpy="0 0 ${-pi/2}"/>
   </joint>
 
   <link name="lidarleft">
@@ -251,7 +251,17 @@
   </link>
 
 
-  <!-- Imaginary LIDAR link -->
+
+
+
+  <joint name="merged_lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_frame"/>
+    <origin xyz="0.0 0.0 -0.44" rpy="0 0 0"/>
+  </joint>
+
+
+
   <link name="laser_frame">
      
     <collision>
@@ -278,12 +288,6 @@
     </inertial>
   </link>
 
-  <joint name="merged_lidar_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="merged_lidar_frame"/>
-    <origin xyz="0.0 0.0 -0.44" rpy="0 0 0"/>
-  </joint>
-
 
 
 
@@ -292,8 +296,8 @@
        on both sides at the back of our robot (i.e. x_reflect=-1). -->
   <!-- <xacro:wheel prefix="drivewhl_l" x_reflect="-1" y_reflect="1" />
   <xacro:wheel prefix="drivewhl_r" x_reflect="-1" y_reflect="-1" /> -->
-  <xacro:wheel prefix="drivewhl_l" x_reflect="-1" y_reflect="-1" />
-  <xacro:wheel prefix="drivewhl_r" x_reflect="-1" y_reflect="1" />
+  <xacro:wheel prefix="drivewhl_l" x_reflect="1" y_reflect="-1" />
+  <xacro:wheel prefix="drivewhl_r" x_reflect="1" y_reflect="1" />
 
 
   <!-- <xacro:sensor_d435i parent="base_link" name="camera">
