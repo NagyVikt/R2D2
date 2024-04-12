@@ -54,10 +54,10 @@ bt_navigator:
     odom_topic: "odom"
     
     use_sim_time: False
-    default_nav_to_pose_bt_xml: "$(find-pkg-share nav2_bt_navigator)/behavior_trees/navigate_w_replanning_only_if_goal_is_updated.xml"
+    default_nav_to_pose_bt_xml: "$(find-pkg-share nav2_bt_navigator)/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
     default_nav_through_poses_bt_xml: "$(find-pkg-share nav2_bt_navigator)/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml"
-    always_reload_bt_xml: false
-    bt_loop_duration: 20
+    always_reload_bt_xml: true
+    bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     action_server_result_timeout: 900.0
@@ -137,18 +137,13 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    current_goal_checker: "goal_checker"
-    current_progress_checker: "progress_checker"
 
-
-    controller_frequency: 10.0
+    controller_frequency: 15.0
     min_x_velocity_threshold: 0.1
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.1
-
-
+    progress_checker_plugins: ["progress_checker"] # progress_checker_plugin: "progress_checker" For Humble and older
     goal_checker_plugins: ["goal_checker"]
-    progress_checker_plugins: ["progress_checker"]
     controller_plugins: ["FollowPath"]
 
     progress_checker:
@@ -164,10 +159,10 @@ controller_server:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
       angular_dist_threshold: 0.785
-      forward_sampling_distance: 1.0
+      forward_sampling_distance: 0.3
       rotate_to_heading_angular_vel: 3.5
       max_angular_accel: 3.5
-      simulate_ahead_time: 1.0
+      simulate_ahead_time: 3.0
 
       min_vel_x: -0.4
       min_vel_y: 0.0
@@ -185,12 +180,12 @@ controller_server:
       decel_lim_theta: -3.5
       vx_samples: 10
       vy_samples: 0
-      vtheta_samples: 30
+      vtheta_samples: 25
       sim_time: 1.7
     
       linear_granularity: 0.05
       angular_granularity: 0.025 #0.025
-      transform_tolerance: 0.6
+      transform_tolerance: 0.5
       trans_stopped_velocity: 0.25
     
       # short_circuit_trajectory_evaluation: True
@@ -235,14 +230,14 @@ controller_server:
       #Engedélyezi a robotnak, hogy enyhén forduljon, miközben előre halad. Default: 0.2
       PreferForward.strafe_theta: 0.4
       #Erősebb hangsúlyt fektet a megfelelő irányba való fordulásra.
-      PreferForward.theta_scale: 5.0
+      PreferForward.theta_scale: 10.0
       #Növeli az előre haladás preferálásának fontosságát. Default: 1.0
       PreferForward.scale: 10.0
       #Nagyobb hangsúly az akadályok elkerülésére, ami növeli a biztonságot. Default: 0.02 CHATGPT: 10.0
       BaseObstacle.scale: 20.0
       #Nagyobb hangsúly az útvonalhoz és a célhoz való igazodásra. Deafult 32.0 es 20.0
-      PathAlign.scale: 30.0
-      GoalAlign.scale: 30.0
+      PathAlign.scale: 50.0
+      GoalAlign.scale: 40.0
       #A robot előtt lévő pont távolságának növelése, amely segít a pontosabb igazodásban. Deafult: 0.1
       PathAlign.forward_point_distance: 0.2
       GoalAlign.forward_point_distance: 0.2
@@ -251,7 +246,7 @@ controller_server:
       GoalDist.scale: 40.0
 
       #Erős hangsúly a cél irányába történő forgásra.
-      RotateToGoal.scale: 32.0 #32.0
+      RotateToGoal.scale: 40.0 #32.0
       #Lassabb lassítás a célhoz való közelítéskor, lehetővé téve a pontosabb beállásokat.
       RotateToGoal.slowing_factor: 15.0 #10.0
 
@@ -267,8 +262,6 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      use_sim_time: False
-
       transform_tolerance: 0.4
       update_frequency: 10.0
       publish_frequency: 5.0
@@ -317,8 +310,6 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      use_sim_time: False
-
       footprint_padding: 0.03
       transform_tolerence: 1.0
       update_frequency: 1.0
@@ -375,8 +366,6 @@ global_costmap:
 
 map_saver:
   ros__parameters:
-    use_sim_time: False
-
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
@@ -385,8 +374,6 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    use_sim_time: False
-
     planner_plugins: ["GridBased"]
 
     GridBased:
@@ -407,10 +394,7 @@ planner_server:
         tolerance: 1.0e-10
 
 smoother_server:
-
   ros__parameters:
-    use_sim_time: False
-
     smoother_plugins: ["SmoothPath"]
 
     SmoothPath:
@@ -439,8 +423,6 @@ smoother_server:
 
 behavior_server:
   ros__parameters:
-    use_sim_time: False
-
     local_costmap_topic: local_costmap/costmap_raw
     global_costmap_topic: global_costmap/costmap_raw
     local_footprint_topic: local_costmap/published_footprint
@@ -466,8 +448,6 @@ behavior_server:
 
 waypoint_follower:
   ros__parameters:
-    use_sim_time: False
-
     loop_rate: 20
     stop_on_failure: false
     action_server_result_timeout: 900.0
@@ -480,8 +460,6 @@ waypoint_follower:
 
 velocity_smoother:
   ros__parameters:
-    use_sim_time: False
-
     smoothing_frequency: 20.0
     scale_velocities: false
     feedback: "OPEN_LOOP"
@@ -496,8 +474,6 @@ velocity_smoother:
 
 collision_monitor:
   ros__parameters:
-    use_sim_time: False
-
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     cmd_vel_in_topic: "cmd_vel_smoothed"
@@ -593,8 +569,6 @@ collision_monitor:
 
 collision_detector:
   ros__parameters:
-    use_sim_time: False
-
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     transform_tolerance: 0.5

@@ -57,7 +57,7 @@ bt_navigator:
     default_nav_to_pose_bt_xml: "$(find-pkg-share nav2_bt_navigator)/behavior_trees/navigate_w_replanning_only_if_goal_is_updated.xml"
     default_nav_through_poses_bt_xml: "$(find-pkg-share nav2_bt_navigator)/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml"
     always_reload_bt_xml: false
-    bt_loop_duration: 20
+    bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     action_server_result_timeout: 900.0
@@ -137,18 +137,13 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    current_goal_checker: "goal_checker"
-    current_progress_checker: "progress_checker"
 
-
-    controller_frequency: 10.0
+    controller_frequency: 15.0
     min_x_velocity_threshold: 0.1
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.1
-
-
+    progress_checker_plugins: ["progress_checker"] # progress_checker_plugin: "progress_checker" For Humble and older
     goal_checker_plugins: ["goal_checker"]
-    progress_checker_plugins: ["progress_checker"]
     controller_plugins: ["FollowPath"]
 
     progress_checker:
@@ -185,12 +180,12 @@ controller_server:
       decel_lim_theta: -3.5
       vx_samples: 10
       vy_samples: 0
-      vtheta_samples: 30
+      vtheta_samples: 25
       sim_time: 1.7
     
       linear_granularity: 0.05
       angular_granularity: 0.025 #0.025
-      transform_tolerance: 0.6
+      transform_tolerance: 0.5
       trans_stopped_velocity: 0.25
     
       # short_circuit_trajectory_evaluation: True
@@ -235,14 +230,14 @@ controller_server:
       #Engedélyezi a robotnak, hogy enyhén forduljon, miközben előre halad. Default: 0.2
       PreferForward.strafe_theta: 0.4
       #Erősebb hangsúlyt fektet a megfelelő irányba való fordulásra.
-      PreferForward.theta_scale: 5.0
+      PreferForward.theta_scale: 10.0
       #Növeli az előre haladás preferálásának fontosságát. Default: 1.0
       PreferForward.scale: 10.0
       #Nagyobb hangsúly az akadályok elkerülésére, ami növeli a biztonságot. Default: 0.02 CHATGPT: 10.0
       BaseObstacle.scale: 20.0
       #Nagyobb hangsúly az útvonalhoz és a célhoz való igazodásra. Deafult 32.0 es 20.0
-      PathAlign.scale: 30.0
-      GoalAlign.scale: 30.0
+      PathAlign.scale: 50.0
+      GoalAlign.scale: 40.0
       #A robot előtt lévő pont távolságának növelése, amely segít a pontosabb igazodásban. Deafult: 0.1
       PathAlign.forward_point_distance: 0.2
       GoalAlign.forward_point_distance: 0.2
@@ -251,7 +246,7 @@ controller_server:
       GoalDist.scale: 40.0
 
       #Erős hangsúly a cél irányába történő forgásra.
-      RotateToGoal.scale: 32.0 #32.0
+      RotateToGoal.scale: 40.0 #32.0
       #Lassabb lassítás a célhoz való közelítéskor, lehetővé téve a pontosabb beállásokat.
       RotateToGoal.slowing_factor: 15.0 #10.0
 

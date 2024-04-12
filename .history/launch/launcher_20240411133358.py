@@ -7,7 +7,7 @@ from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, Exec
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression, PathJoinSubstitution
-from launch_ros.actions import Node, ComposableNodeContainer, LifecycleNode
+from launch_ros.actions import Node, ComposableNodeContainer, LifecycleNode, SetLogLevel
 from launch_ros.substitutions import FindPackageShare
 
 from launch_ros.descriptions import ComposableNode
@@ -28,13 +28,11 @@ def on_exit_event(context):
 
 
 def generate_launch_description():
-     # Set the logging level to DEBUG for all nodes launched in this session
-    os.environ['RCUTILS_LOGGING_SEVERITY'] = 'DEBUG'
-
 
     # ==============================================================================
     # =========================    DEFAULT VARIABLES   =============================
     # ==============================================================================
+
     pkg_share = FindPackageShare(package='r2d2').find('r2d2')
     nav2_dir = FindPackageShare(package='nav2_bringup').find('nav2_bringup') 
 
@@ -443,7 +441,7 @@ def generate_launch_description():
                        ],
             parameters = [{
                 'target_frame': 'base_link',
-                'transform_tolerance': 0.1,
+                'transform_tolerance': 0.2,
                 'min_height': 0.0,
                 'max_height': 2.0,
                 'angle_min': -3.1416,  # -π
