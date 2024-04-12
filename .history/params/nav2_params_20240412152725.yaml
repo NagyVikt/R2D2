@@ -139,7 +139,7 @@ controller_server:
     use_sim_time: False
 
 
-    controller_frequency: 8.0
+    controller_frequency: 5.0
     min_x_velocity_threshold: 0.1
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.15
@@ -150,8 +150,8 @@ controller_server:
     controller_plugins: ["FollowPath"]
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.005
-      movement_time_allowance: 4.0
+      required_movement_radius: 0.01
+      movement_time_allowance: 5.0
     general_goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.35
@@ -170,7 +170,7 @@ controller_server:
       min_vel_y: 0.0
       max_vel_x: 0.4
       max_vel_y: 0.0
-      max_vel_theta: 1.0
+      max_vel_theta: 2.0
       min_speed_xy:  0.0
       max_speed_xy: 0.4
       min_speed_theta: 0.0
@@ -182,15 +182,15 @@ controller_server:
       decel_lim_theta: -3.5
       vx_samples: 10
       vy_samples: 0
-      vtheta_samples: 15
-      sim_time: 1.2
+      vtheta_samples: 20
+      sim_time: 1.7
     
       linear_granularity: 0.05
-      angular_granularity: 0.02 #0.025
+      angular_granularity: 0.025 #0.025
       transform_tolerance: 0.6
       trans_stopped_velocity: 0.25
     
-      short_circuit_trajectory_evaluation: True
+      # short_circuit_trajectory_evaluation: True
       # stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist" ]
       # #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
@@ -216,10 +216,47 @@ controller_server:
       GoalDist.scale: 10.0
 
       #Erős hangsúly a cél irányába történő forgásra.
-      RotateToGoal.scale: 40.0 #32.0
-      RotateToGoal.slowing_factor: 2.0 #10.0
+      RotateToGoal.scale: 25.0 #32.0
+      RotateToGoal.slowing_factor: 3.0 #10.0
       RotateToGoal.lookahead_time: 1.0
-     
+      required_movement_radius: 0.05 #nekem 0.1
+
+      
+      short_circuit_trajectory_evaluation: True
+      stateful: True
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist", "PreferForward"]
+      #Ez növeli az előre haladás preferálását az oldalirányú mozgással szemben. Deafult: 1.0
+      PreferForward.penalty: 2.0
+      #Kisebb oldalirányú mozgás engedélyezése. Deafult: 0.1
+      PreferForward.strafe_x: 0.2
+      #Engedélyezi a robotnak, hogy enyhén forduljon, miközben előre halad. Default: 0.2
+      PreferForward.strafe_theta: 0.4
+      #Erősebb hangsúlyt fektet a megfelelő irányba való fordulásra.
+      PreferForward.theta_scale: 5.0
+      #Növeli az előre haladás preferálásának fontosságát. Default: 1.0
+      PreferForward.scale: 10.0
+      #Nagyobb hangsúly az akadályok elkerülésére, ami növeli a biztonságot. Default: 0.02 CHATGPT: 10.0
+      BaseObstacle.scale: 20.0
+      #Nagyobb hangsúly az útvonalhoz és a célhoz való igazodásra. Deafult 32.0 es 20.0
+      PathAlign.scale: 30.0
+      GoalAlign.scale: 30.0
+      #A robot előtt lévő pont távolságának növelése, amely segít a pontosabb igazodásban. Deafult: 0.1
+      PathAlign.forward_point_distance: 0.2
+      GoalAlign.forward_point_distance: 0.2
+      #Nagyobb súlyt ad az útvonalon való maradásnak és a célponthoz való közelítésnek.
+      PathDist.scale: 50.0
+      GoalDist.scale: 40.0
+
+      #Erős hangsúly a cél irányába történő forgásra.
+      RotateToGoal.scale: 32.0 #32.0
+      #Lassabb lassítás a célhoz való közelítéskor, lehetővé téve a pontosabb beállásokat.
+      RotateToGoal.slowing_factor: 15.0 #10.0
+
+      #A "RotateToGoal.lookahead_time" -1.0 értéke a DWB (Dynamic Window Approach) helyi útvonaltervező paramétereiben azt jelenti, 
+      #hogy a "RotateToGoal" kritikus komponens mennyi ideig tekint előre a cél irányába történő forgatás során. Ha ez az érték -1.0, valószínűleg azt jelenti, 
+      #hogy a paraméter alapértelmezett viselkedést követ, vagy nem használ előretekintési időt a cél felé fordulás során. 
+      #Az előretekintési idő a robotnak a cél irányába történő fordulásának finomítására szolgál, hogy optimalizálja a forduló mozgását és javítsa a navigációs hatékonyságot.
+      RotateToGoal.lookahead_time: 1.0
 
 
 
@@ -445,8 +482,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: false
     feedback: "OPEN_LOOP"
-    max_velocity: [0.4, 0.0, 1.0]
-    min_velocity: [-0.4, 0.0, -1.0] 
+    max_velocity: [0.4, 0.0, 2.0]
+    min_velocity: [-0.4, 0.0, -2.0] 
     max_accel: [2.5, 0.0, 3.5]
     max_decel: [-2.5, 0.0, -3.5]
     odom_topic: "odom"
