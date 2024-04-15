@@ -304,8 +304,6 @@ controller_server:
       #Default Value: Typically around 2.0 to 5.0.
       #Range: Generally between 1.0 (no slowing) to higher values for more pronounced slowing.
       RotateToGoal.slowing_factor: 2.0
-
-    
       #Default Value: Usually set between 1.0 to 5.0 seconds.
       RotateToGoal.lookahead_time: 5.0
 

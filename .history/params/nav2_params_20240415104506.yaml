@@ -245,10 +245,10 @@ controller_server:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
       angular_dist_threshold: 1.5
-      forward_sampling_distance: 0.8
-      rotate_to_heading_angular_vel: 1.5
-      max_angular_accel: 2.5
-      simulate_ahead_time: 1.0
+      forward_sampling_distance: 0.3
+      rotate_to_heading_angular_vel: 3.5
+      max_angular_accel: 3.5
+      simulate_ahead_time: 1.5
 
       min_vel_x: -0.3
       min_vel_y: 0.0
@@ -257,7 +257,7 @@ controller_server:
       max_vel_theta: 1.0
       min_speed_xy:  0.0
       max_speed_xy: 0.4
-      min_speed_theta: -1.0
+      min_speed_theta: 0.0
       acc_lim_x: 2.0
       acc_lim_y: 0.0
       acc_lim_theta: 3.5
@@ -272,41 +272,15 @@ controller_server:
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.5
-
-      #Leírás: Az a sebességérték, amely alatt a robotot állónak tekintik.
-      trans_stopped_velocity: 0.07
+      trans_stopped_velocity: 0.25
     
-
-      #Ez speed uppol akkor ha van mar egy jo ut megtalalva nem nezi meg a tobbit
-      short_circuit_trajectory_evaluation: false
-
-
+      short_circuit_trajectory_evaluation: True
       critics: ["RotateToGoal", "BaseObstacle", "PathDist", "GoalDist"]
-      
-      #Alapértelmezett érték: Nincs konkrét "ipari szabvány" alapértelmezett értékre, mivel ez nagyban függ a robot méretétől, kinematikájától, a felhasználás környezetétől, és a tervező preferenciáitól. Gyakori értékek 0.1-től 1.0-ig terjedhetnek.
-
-      #BaseObstacle.scale: Ez a paraméter az akadályok elkerülésének fontosságát szabályozza. A trajektória-kiértékelő algoritmus az akadályok közelében lévő lehetséges útvonalak pontszámát csökkenti, ezzel elősegítve, hogy a robot biztonságos távolságot tartson. A scale értéke az akadályelkerülési kritérium súlyozását határozza meg a többi kritériumhoz képest.
-
-      # Hogyan hat ez a robot működésére?
-
-      #Magasabb érték: Nagyobb súlyt ad az akadályelkerülésnek. Ez azt jelenti, hogy a robot inkább választ olyan útvonalakat, amelyek messzebb kerülnek az akadályoktól, még akkor is, ha az adott útvonal hosszabb vagy kanyargósabb lehet.
-      #Alacsonyabb érték: Kisebb prioritást ad az akadályelkerülésnek, lehetővé téve, hogy a robot közelebb menjen az akadályokhoz, vagy gyorsabb, egyenesebb útvonalat válasszon, ami azonban kockázatosabb lehet.
-            
       BaseObstacle.scale: 0.5
-
-      #Default Value: Can vary; often set between 10.0 to 50.0.
       PathDist.scale: 15.0
-      #Default Value: Can vary; often set between 20.0 to 50.0.
       GoalDist.scale: 20.0
-      #Default Value: Often similar to GoalDist.scale.
-      RotateToGoal.scale: 20.0
-
-      #Default Value: Typically around 2.0 to 5.0.
-      #Range: Generally between 1.0 (no slowing) to higher values for more pronounced slowing.
+      RotateToGoal.scale: 40.0
       RotateToGoal.slowing_factor: 2.0
-
-    
-      #Default Value: Usually set between 1.0 to 5.0 seconds.
       RotateToGoal.lookahead_time: 5.0
 
 
@@ -435,14 +409,26 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
-    planner_plugins: ["GridBased"]
-    GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
-      tolerance: 0.5
-      use_astar: false
-      allow_unknown: true
+    use_sim_time: False
 
+    planner_plugins: ["GridBased"]
+
+    GridBased:
+      plugin: "nav2_smac_planner/SmacPlanner2D" # In Iron and older versions, "/" was used instead of "::"
+      tolerance: 0.225                      # tolerance for planning if unable to reach exact pose, in meters
+      downsample_costmap: false             # whether or not to downsample the map
+      downsampling_factor: 0               # multiplier for the resolution of the costmap layer (e.g. 2 on a 5cm costmap would be 10cm)
+      allow_unknown: true                   # allow traveling in unknown space
+      max_iterations: -1                # maximum total iterations to search for before failing (in case unreachable), set to -1 to disable
+      max_on_approach_iterations: 1000      # maximum number of iterations to attempt to reach goal once in tolerance
+      max_planning_time: 5.0                # max ti in s for planner to plan, smooth
+      cost_travel_multiplier: 15.0           # Cost multiplier to apply to search to steer away from high cost areas. Larger values will place in the center of aisles more exactly (if non-`FREE` cost potential field exists) but take slightly longer to compute. To optimize for speed, a value of 1.0 is reasonable. A reasonable tradeoff value is 2.0. A value of 0.0 effective disables steering away from obstacles and acts like a naive binary search A*.
+      use_final_approach_orientation: true # Whether to set the final path pose at the goal's orientation to the requested orientation (false) or in line with the approach angle so the robot doesn't rotate to heading (true)
+      smoother:
+        max_iterations: 1000 
+        w_smooth: 0.6
+        w_data: 0.1
+        tolerance: 1.0e-10
 
 # smoother_server:
 

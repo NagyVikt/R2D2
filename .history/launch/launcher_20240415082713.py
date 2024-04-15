@@ -514,7 +514,8 @@ def generate_launch_description():
             'use_sim_time': use_sim_time,
             'params_file': params_file,
             'default_bt_xml_filename': default_bt_xml_filename,
-            'autostart': autostart
+            'autostart': autostart,
+            '--log-level': 'debug'
         }.items()
     )
 

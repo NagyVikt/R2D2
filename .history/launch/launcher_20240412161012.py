@@ -327,7 +327,7 @@ def generate_launch_description():
         package='rviz2',
         executable='rviz2',
         name='rviz2',
-        output='screen',
+        output='both',
         arguments=['-d', rviz_config_file])    
 
 
@@ -514,7 +514,9 @@ def generate_launch_description():
             'use_sim_time': use_sim_time,
             'params_file': params_file,
             'default_bt_xml_filename': default_bt_xml_filename,
-            'autostart': autostart
+            'autostart': autostart,
+            '--ros-args': None,
+            '--log-level': 'debug'
         }.items()
     )
 
