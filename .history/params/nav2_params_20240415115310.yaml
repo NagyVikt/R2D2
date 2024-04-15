@@ -224,7 +224,7 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    controller_frequency: 8.0
+    controller_frequency: 20.0
     min_x_velocity_threshold: 0.05
     min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.09
@@ -244,18 +244,11 @@ controller_server:
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
-      #a szögkülönbség (radiánban), amelynél nagyobb eltérés esetén a robot először a kívánt irányba fordul, mielőtt elmozdulna.
       angular_dist_threshold: 0.5
-
-      #A távolság, amit a vezérlő előre szimulál, hogy segítse a haladási irány beállítását.
-      forward_sampling_distance: 2.0
-      #Leírás: A maximális szögsebesség, amellyel a robot az előírt irányba fordul.
-      #Érték: 1.5 radián/perc – Ez egy közepes sebességű forgatás, ami lehetővé teszi a robot számára, hogy gyorsan, de mégis kontrolláltan forduljon.
+      forward_sampling_distance: 0.8
       rotate_to_heading_angular_vel: 1.5
-      #Leírás: A robot maximális szöggyorsulása, amikor az előírt irányba fordul.
       max_angular_accel: 2.5
-      #A szimuláció időtartama másodpercben, amíg a vezérlő előre kiszámítja a robot mozgását.
-      simulate_ahead_time: 3.0
+      simulate_ahead_time: 1.0
 
       min_vel_x: -0.3
       min_vel_y: 0.0
@@ -282,9 +275,11 @@ controller_server:
 
       #Leírás: Az a sebességérték, amely alatt a robotot állónak tekintik.
       trans_stopped_velocity: 0.07
+    
 
       #Ez speed uppol akkor ha van mar egy jo ut megtalalva nem nezi meg a tobbit
       short_circuit_trajectory_evaluation: false
+
 
       critics: ["RotateToGoal", "BaseObstacle", "PathDist", "GoalDist"]
       
