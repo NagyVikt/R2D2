@@ -468,7 +468,7 @@ def generate_launch_description():
         name='realsense2_camera_node',
         output='screen',
 
-        parameters=[ {'serial_no': '213322072999',
+        parameters=[ {'serial_no': '239722073171',
         'base_frame_id': 'base_link',
         'enable_acel' : True,
         'initial_reset': True,
@@ -482,11 +482,11 @@ def generate_launch_description():
         'publish_tf': True,
         'unite_imu_method':2,
         'use_sim_time': False,
-        'pointcloud.allow_no_texture_points': True,
+        'pointcloud.allow_no_texture_points': False,
                     'pointcloud.enable': True,
                     'pointcloud.filter_magnitude': 1,
                     'pointcloud.frames_queue_size': 32,
-                    'pointcloud.ordered_pc': True,
+                    'pointcloud.ordered_pc': False,
                     'pointcloud.pointcloud_qos': 'DEFAULT',
                     'pointcloud.stream_filter': 1,              
                     'pointcloud.stream_format_filter': 0,
@@ -727,11 +727,6 @@ def generate_launch_description():
 
 
 
-    # ************************   CAMERA NODE  1  **********************************
-
-    ld.add_action(camera1_node)
-
-    # ************************   CAMERA NODE  2  **********************************
 
 
     # *********************    START ROBOT + URDF  *********************************
@@ -754,9 +749,6 @@ def generate_launch_description():
 
     ld.add_action(ResetESP32)
     #ld.add_action(throttle_node)
-
-
-
 
 
 
