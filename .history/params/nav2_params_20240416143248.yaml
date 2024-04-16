@@ -146,7 +146,7 @@ controller_server:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
       #a szögkülönbség (radiánban), amelynél nagyobb eltérés esetén a robot először a kívánt irányba fordul, mielőtt elmozdulna.
-      angular_dist_threshold: 0.4
+      angular_dist_threshold: 0.25
       #A távolság, amit a vezérlő előre szimulál, hogy segítse a haladási irány beállítását.
       forward_sampling_distance: 0.5
       #Leírás: A maximális szögsebesség, amellyel a robot az előírt irányba fordul.
@@ -162,7 +162,7 @@ controller_server:
       max_vel_x: 1.0
       max_vel_y: 0.0
       max_vel_theta: 2.5
-      min_speed_xy: 0.0
+      min_speed_xy: -0.4
       max_speed_xy: 1.0
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.

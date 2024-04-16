@@ -348,22 +348,6 @@ def generate_launch_description():
                     'freq' : 18.0}],
             )
 
-
-    start_visual_odometry_left = Node(
-                package='rf2o_laser_odometry',
-                executable='rf2o_laser_odometry_node',
-                name='rf2o_laser_odometry_right',
-                output='both',
-                parameters=[{
-                    'laser_scan_topic' : '/scan_left_filtered',
-                    'odom_topic' : '/odom',
-                    'publish_tf' : True,
-                    'base_frame_id' : 'base_footprint',
-                    'odom_frame_id' : 'odom',
-                    'init_pose_from_topic' : '',
-                    'freq' : 5.0}],
-            )
-
     # --------------------------------- LIDAR RIGHT ---------------------------------
 
     start_rplidar_ros_right = Node(
@@ -457,6 +441,42 @@ def generate_launch_description():
             }],
             name='pointcloud_to_laserscan'
         )
+
+
+    # --------------------------------- Kamera Node ---------------------------------
+
+    camera1_node = Node(
+        package='realsense2_camera',
+        executable='realsense2_camera_node',
+        name='realsense2_camera_node',
+        output='screen',
+
+        parameters=[ {'serial_no': '213322072999',
+        'base_frame_id': 'base_link',
+        'enable_acel' : True,
+        'initial_reset': True,
+        'enable_gyro': True,
+        'enable_color': True,
+        'enable_depth': True,
+        'enable_infra1': False,
+        'enable_infra2': False,
+        'enable_sync': True,
+        'publish_odom_tf': True,
+        'publish_tf': True,
+        'unite_imu_method':2,
+        'use_sim_time': False,
+        'pointcloud.allow_no_texture_points': False,
+                    'pointcloud.enable': True,
+                    'pointcloud.filter_magnitude': 1,
+                    'pointcloud.frames_queue_size': 32,
+                    'pointcloud.ordered_pc': False,
+                    'pointcloud.pointcloud_qos': 'DEFAULT',
+                    'pointcloud.stream_filter': 1,              
+                    'pointcloud.stream_format_filter': 0,
+                    'pointcloud.stream_index_filter': 0}]
+
+
+    )
 
 
 
@@ -699,17 +719,17 @@ def generate_launch_description():
 
     # ***************************    HOVERBOARD  **********************************
     #EZ LETESITI A MICROCONTROLLER KAPCSOLATOT
-    ld.add_action(start_micro_ros)
+    #ld.add_action(start_micro_ros)
 
     #EZT MEGKELL IRNI
     #FUNKCIO: KAPCSOLAT A HOVERBOARD ES A ROS KOZOTT
-    ld.add_action(start_rqt_robot_steering_node_cmd)
-    ld.add_action(start_hoverboard_bridge)
+    #ld.add_action(start_rqt_robot_steering_node_cmd)
+    #ld.add_action(start_hoverboard_bridge)
 
-    ld.add_action(lifecycle_node)
-    ld.add_action(demo_service_client)
+    # ld.add_action(lifecycle_node)
+    # ld.add_action(demo_service_client)
 
-    ld.add_action(ResetESP32)
+    #ld.add_action(ResetESP32)
     #ld.add_action(throttle_node)
 
 

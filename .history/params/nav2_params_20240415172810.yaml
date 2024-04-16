@@ -43,7 +43,7 @@ bt_navigator:
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /odom
-    bt_loop_duration: 20
+    bt_loop_duration: 10
     default_server_timeout: 20
     action_server_result_timeout: 900.0
     navigators: ["navigate_to_pose", "navigate_through_poses"]
@@ -113,7 +113,7 @@ bt_navigator:
 
 controller_server:
   ros__parameters:
-    controller_frequency: 9.5
+    controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
@@ -126,7 +126,7 @@ controller_server:
     # Progress checker parameters
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.1
+      required_movement_radius: 0.5
       movement_time_allowance: 10.0
     # Goal checker parameters
     #precise_goal_checker:
@@ -137,8 +137,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.35
-      yaw_goal_tolerance: 0.35
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
     # DWB parameters
 
 
@@ -146,24 +146,24 @@ controller_server:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
       #a szögkülönbség (radiánban), amelynél nagyobb eltérés esetén a robot először a kívánt irányba fordul, mielőtt elmozdulna.
-      angular_dist_threshold: 0.4
+      angular_dist_threshold: 0.3
       #A távolság, amit a vezérlő előre szimulál, hogy segítse a haladási irány beállítását.
-      forward_sampling_distance: 0.5
+      forward_sampling_distance: 3.0
       #Leírás: A maximális szögsebesség, amellyel a robot az előírt irányba fordul.
       #Érték: 1.5 radián/perc – Ez egy közepes sebességű forgatás, ami lehetővé teszi a robot számára, hogy gyorsan, de mégis kontrolláltan forduljon.
-      rotate_to_heading_angular_vel: 2.0
+      rotate_to_heading_angular_vel: 0.3
       #Leírás: A robot maximális szöggyorsulása, amikor az előírt irányba fordul.
-      max_angular_accel: 3.2
-      #A szimuláció időtartama sodpercben, amíg a vezérlő előre kiszámítja a robot mozgását.
-      simulate_ahead_time: 2.0
+      max_angular_accel: 1.5
+      #A szimuláció időtartama másodpercben, amíg a vezérlő előre kiszámítja a robot mozgását.
+      simulate_ahead_time: 3.0
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 1.0
+      max_vel_x: 0.26
       max_vel_y: 0.0
-      max_vel_theta: 2.5
+      max_vel_theta: 1.0
       min_speed_xy: 0.0
-      max_speed_xy: 1.0
+      max_speed_xy: 0.26
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
@@ -181,11 +181,11 @@ controller_server:
       angular_granularity: 0.025
       transform_tolerance: 0.2
       xy_goal_tolerance: 0.25
-      trans_stopped_velocity: 0.08
+      trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.22
+      BaseObstacle.scale: 0.02
       PathAlign.scale: 32.0
       PathAlign.forward_point_distance: 0.1
       GoalAlign.scale: 24.0
@@ -311,7 +311,7 @@ behavior_server:
     global_costmap_topic: global_costmap/costmap_raw
     local_footprint_topic: local_costmap/published_footprint
     global_footprint_topic: global_costmap/published_footprint
-    cycle_frequency: 10.0 #10
+    cycle_frequency: 10.0
     behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"
@@ -326,10 +326,10 @@ behavior_server:
     local_frame: odom
     global_frame: map
     robot_base_frame: base_link
-    transform_tolerance: 0.2
-    simulate_ahead_time: 3.0
-    max_rotational_vel: 1.5
-    min_rotational_vel: 0.25
+    transform_tolerance: 0.1
+    simulate_ahead_time: 2.0
+    max_rotational_vel: 1.0
+    min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
 
 waypoint_follower:
@@ -348,8 +348,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [1.0, 0.0, 2.5]
-    min_velocity: [-1.0, 0.0, -2.5]
+    max_velocity: [0.26, 0.0, 1.0]
+    min_velocity: [-0.26, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"

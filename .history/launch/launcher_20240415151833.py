@@ -680,14 +680,9 @@ def generate_launch_description():
     ld.add_action(start_lidarright_filter)
 
     ld.add_action(laser_scan_merge_node)
-
     ld.add_action(pointcloud_to_laserscan_merge_node)
 
-
     ld.add_action(start_visual_odometry) 
-
-
-
 
 
 
@@ -699,7 +694,7 @@ def generate_launch_description():
 
     # ***************************    HOVERBOARD  **********************************
     #EZ LETESITI A MICROCONTROLLER KAPCSOLATOT
-    ld.add_action(start_micro_ros)
+    #ld.add_action(start_micro_ros)
 
     #EZT MEGKELL IRNI
     #FUNKCIO: KAPCSOLAT A HOVERBOARD ES A ROS KOZOTT

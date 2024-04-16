@@ -348,22 +348,6 @@ def generate_launch_description():
                     'freq' : 18.0}],
             )
 
-
-    start_visual_odometry_left = Node(
-                package='rf2o_laser_odometry',
-                executable='rf2o_laser_odometry_node',
-                name='rf2o_laser_odometry_right',
-                output='both',
-                parameters=[{
-                    'laser_scan_topic' : '/scan_left_filtered',
-                    'odom_topic' : '/odom',
-                    'publish_tf' : True,
-                    'base_frame_id' : 'base_footprint',
-                    'odom_frame_id' : 'odom',
-                    'init_pose_from_topic' : '',
-                    'freq' : 5.0}],
-            )
-
     # --------------------------------- LIDAR RIGHT ---------------------------------
 
     start_rplidar_ros_right = Node(

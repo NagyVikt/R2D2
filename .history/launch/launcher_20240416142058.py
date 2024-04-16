@@ -568,6 +568,40 @@ def generate_launch_description():
     )
 
 
+    camera2_node = Node(
+        package='realsense2_camera',
+        executable='realsense2_camera_node',
+        name='realsense2_camera_node2',
+        namespace='camera2',
+        output='screen',
+
+        parameters=[ {'serial_no': '239722073171',
+        'base_frame_id': 'base_link',
+        'initial_reset': False,
+        'enable_acel' : False,
+        'enable_gyro': False,
+        'enable_color': True,
+        'enable_depth': True,
+        'enable_infra1': False,
+        'enable_infra2': False,
+        'enable_sync': True,
+        'publish_odom_tf': False,
+        'publish_tf': True,
+        'use_sim_time': False,
+        'pointcloud.allow_no_texture_points': False,
+                    'pointcloud.enable': True,
+                    'pointcloud.filter_magnitude': 1,
+                    'pointcloud.frames_queue_size': 32,
+                    'pointcloud.ordered_pc': False,
+                    'pointcloud.pointcloud_qos': 'DEFAULT',
+                    'pointcloud.stream_filter': 2,              
+                    'pointcloud.stream_format_filter': 0,
+                    'pointcloud.stream_index_filter': 0}]
+    
+        )
+
+
+
 
 
     start_transform =  Node(
@@ -582,7 +616,30 @@ def generate_launch_description():
 
 
     demo_lifecycle_listener =  Node(package='demo_lifecycle', executable='listener', output='screen')
-    demo_service_client =  Node(package='demo_lifecycle', executable='service_client', output='screen')
+    demo_service_client =  Node(pac    camera2_node = Node(
+        package='realsense2_camera',
+        executable='realsense2_camera_node',
+        name='realsense2_camera_node2',
+        namespace='camera2',
+        output='screen',
+
+        parameters=[ {'serial_no': '239722073171',
+        'base_frame_id': 'base_link',
+        'initial_reset': True,
+        'enable_acel' : False,
+        'enable_gyro': False,
+        'enable_color': True,
+        'enable_depth': True,
+        'enable_infra1': False,
+        'enable_infra2': False,
+        'enable_sync': True,
+        'publish_odom_tf': False,
+        'publish_tf': True,
+        'use_sim_time': False,
+        'pointcloud.enable': False}]
+
+        )
+kage='demo_lifecycle', executable='service_client', output='screen')
 
 
     # --------------------------------- ESP32 --------------------------------------
@@ -670,6 +727,8 @@ def generate_launch_description():
     ld.add_action(start_rplidar_ros_left)
     ld.add_action(start_lidarleft_filter)
 
+
+
     #ld.add_action(start_visual_odometry_left)  
 
 
@@ -688,6 +747,11 @@ def generate_launch_description():
 
 
 
+    # ************************    START CAMERA 1  **********************************
+
+    ld.add_action(camera2_node)
+
+    # ************************    START CAMERA 2  **********************************
 
 
 
