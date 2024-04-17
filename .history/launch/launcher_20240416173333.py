@@ -488,7 +488,7 @@ def generate_launch_description():
         'pointcloud.frames_queue_size': 16,
         'pointcloud.ordered_pc': False,
         'pointcloud.pointcloud_qos': 'DEFAULT',
-        'pointcloud.stream_filter': 0,              
+        'pointcloud.stream_filter': 2,              
         'pointcloud.stream_format_filter': 0,
         'pointcloud.stream_index_filter': 0}]
     )

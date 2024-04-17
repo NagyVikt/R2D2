@@ -467,7 +467,7 @@ def generate_launch_description():
         executable='realsense2_camera_node',
         name='realsense2_camera_node',
         output='screen',
-        namespace='camera',
+
         parameters=[ {'serial_no': '213322072999',
         'base_frame_id': 'base_link',
         'enable_accel' : True,
@@ -482,13 +482,13 @@ def generate_launch_description():
         'publish_tf': True,
         'unite_imu_method':0,
         'use_sim_time': False,
-        'pointcloud.allow_no_texture_points': True,
+        'pointcloud.allow_no_texture_points': False,
         'pointcloud.enable': True,
         'pointcloud.filter_magnitude': 1,
         'pointcloud.frames_queue_size': 16,
         'pointcloud.ordered_pc': False,
         'pointcloud.pointcloud_qos': 'DEFAULT',
-        'pointcloud.stream_filter': 0,              
+        'pointcloud.stream_filter': 1,              
         'pointcloud.stream_format_filter': 0,
         'pointcloud.stream_index_filter': 0}]
     )
